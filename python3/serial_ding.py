@@ -29,7 +29,7 @@ def parse_message(message):
         p.loadfile(SAMPLE_PATH)
 
 
-p = mplayer.Player()
+p = mplayer.Player(args=['-ao', 'alsa:device=hw=1.0'])
 
 while(True):
     if not DUMMY_MODE:
