@@ -47,4 +47,13 @@ while not client.connected_flag:  # wait in loop
 print("Subscribing to topic", SWITCHBOX_SUB_TOPIC)
 client.subscribe(SWITCHBOX_SUB_TOPIC)
 print("Paho: looping forever...")
-client.loop_forever()
+
+def send_heartbeat():
+    print('Heartbeat')
+
+while(True):
+    sleep(1)
+    send_heartbeat()
+
+client.loop_stop()  # Stop loop
+client.disconnect()  # disconnect
