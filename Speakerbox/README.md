@@ -13,6 +13,6 @@ ssh -t pi@speakerbox.local "cd ~/workshop ; bash"
 - Send updated code from host to speakerbox:
 
 ```
-scp <code>
+scp -r ./* pi@speakerbox.local:workshop
 ssh user@speakerbox.local 'stop_old_version && run_new_version && run_tests'
 ```

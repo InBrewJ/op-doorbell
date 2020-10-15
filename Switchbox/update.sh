@@ -1,0 +1,1 @@
+scp -r ./* root@switchbox.local:workshop
