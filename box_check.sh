@@ -15,7 +15,8 @@ function check {
     print_divider
 }
 
-while true; do 
+while true; do
+    echo \| `date` \|
     check
     sleep $TEST_DELAY
     clear
