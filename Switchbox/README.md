@@ -16,3 +16,15 @@ ssh -t root@switchbox.local "cd ~/workshop ; bash"
 scp <code>
 ssh user@speakerbox.local 'stop_old_version && run_new_version && run_tests'
 ```
+
+Automatically connect to WiFi:
+
+```
+
+```
+
+Monitor box_check with:
+
+```
+watch -n 5 ./box_check.sh
+```
