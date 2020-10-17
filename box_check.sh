@@ -15,6 +15,7 @@ function check {
     print_divider
 }
 
+clear
 while true; do
     echo \| `date` \|
     check
