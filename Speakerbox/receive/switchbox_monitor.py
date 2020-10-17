@@ -1,17 +1,18 @@
 from time import sleep
 import paho.mqtt.client as mqtt
 import mplayer
+import time
 
 # Must start the broker via docker (or whatever) first!
 BROKER = "localhost"
 BROKER_PORT = 1883
 SWITCHBOX_SUB_TOPIC = 'switchbox/doorbell/trigger'
-SAMPLE_PATH = "../High-pitched-doorbell-ring-twice/High-pitched-doorbell-ring-twice.mp3"
+SAMPLE_PATH = "/home/pi/workshop/High-pitched-doorbell-ring-twice/High-pitched-doorbell-ring-twice.mp3"
 audio_player = None
+JACK = 0.0
 
 def init_audio():
-    jack = 0.0
-    return mplayer.Player(args=['-ao', 'alsa:device=hw='+str(jack)])
+    return mplayer.Player(args=['-ao', 'alsa:device=hw='+str(JACK)])
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -49,7 +50,8 @@ client.subscribe(SWITCHBOX_SUB_TOPIC)
 print("Paho: looping forever...")
 
 def send_heartbeat():
-    print('Heartbeat')
+    localtime = time.asctime( time.localtime(time.time()) )
+    print('Heartbeat to WizardMon: ', str(localtime))
 
 while(True):
     sleep(1)

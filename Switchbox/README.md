@@ -19,12 +19,15 @@ ssh user@speakerbox.local 'stop_old_version && run_new_version && run_tests'
 
 Automatically connect to WiFi:
 
-```
-
-```
+- See etc_network_interfaces
 
 Monitor box_check with:
 
+- Potential startup script:
+
 ```
-watch -n 5 ./box_check.sh
+# Run cron as root
+sudo crontab -e
+# Add line:
+@reboot sleep 15 && /usr/bin/python3 -u /root/workshop/send/switch_node_monitor.py >> /root/workshop/switchbox.log 2>&1 &
 ```
