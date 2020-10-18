@@ -20,11 +20,11 @@ void setup() {
   button.setDebounceTime(60);
 }
 
-StaticJsonDocument<200> buildPayload(String message) {
+StaticJsonDocument<200> buildPayload(int state) {
   StaticJsonDocument<200> out;
   // ding for down
   out["version"] = 1;
-  out["message"]= message;
+  out["state"]= state;
   return out;
 }
 
@@ -38,17 +38,9 @@ void loop() {
   // https://github.com/ArduinoGetStarted/button/blob/master/examples/03.SingleButtonDebounce/03.SingleButtonDebounce.ino
 
   button.loop();
+  int state = digitalRead(SWITCH_PIN);
 
-  if(button.isPressed()) {
-    digitalWrite(LED_PIN, HIGH);
-    serializeJson(buildPayload("ding"), Serial);
-    Serial.println(); 
-  }
-
-  if(button.isReleased()) {
-    digitalWrite(LED_PIN, LOW);
-    serializeJson(buildPayload("dong"), Serial);
-    Serial.println();
-  }
+  Serial.println(state);
+  delay(250);
   
 }
