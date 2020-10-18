@@ -2,6 +2,9 @@ from time import sleep
 import paho.mqtt.client as mqtt
 import mplayer
 import time
+import subprocess
+from subprocess import Popen,PIPE
+from shlex import split
 
 # Must start the broker via docker (or whatever) first!
 BROKER = "localhost"
@@ -10,6 +13,26 @@ SWITCHBOX_SUB_TOPIC = 'switchbox/doorbell/trigger'
 SAMPLE_PATH = "/home/pi/workshop/High-pitched-doorbell-ring-twice/High-pitched-doorbell-ring-twice.mp3"
 audio_player = None
 JACK = 0.0
+VOLUME_QUERY_SOURCE = "amixer"
+VOLUME_QUERY_SED = "sed -n '/Headphone/,/Mono:/p'"
+VOLUME_QUERY_GREP = "grep -oP '\[.*?\]'"
+
+def get_headphone_volume_as_array():
+    p1 = Popen(VOLUME_QUERY_SOURCE, stdout=PIPE)
+    p2 = Popen(split(VOLUME_QUERY_SED), stdin=p1.stdout, stdout=PIPE)
+    p3 = Popen(split(VOLUME_QUERY_GREP), stdin=p2.stdout, stdout=subprocess.PIPE, text=True)
+    stdout, stderr = p3.communicate()
+    return stdout.split('\n')
+
+def get_headphone_volume_stats():
+    stats_as_array = get_headphone_volume_as_array()[:3]
+    mapping = ['volume_percent', 'volume_db', 'isNotMuted']
+    stats_dict = {}
+    for idx, stat in enumerate(stats_as_array):
+        without_brackets = stat.strip('[').strip(']')
+        stats_dict[mapping[idx]] = without_brackets
+    return stats_dict
+
 
 def init_audio():
     return mplayer.Player(args=['-ao', 'alsa:device=hw='+str(JACK)])
@@ -52,6 +75,7 @@ print("Paho: looping forever...")
 def send_heartbeat():
     localtime = time.asctime( time.localtime(time.time()) )
     print('Heartbeat to WizardMon: ', str(localtime))
+    print(get_headphone_volume_stats())
 
 while(True):
     sleep(1)

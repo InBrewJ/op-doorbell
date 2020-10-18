@@ -1,0 +1,1 @@
+pkill -f switchbox_monitor.py

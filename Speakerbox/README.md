@@ -25,3 +25,16 @@ crontab -e
 # Add lines:
 @reboot /usr/local/bin/docker-compose -f /home/pi/workshop/infra/docker-compose.yaml up -d && /usr/bin/python3 -u /home/pi/workshop/receive/switchbox_monitor.py >> /home/pi/workshop/speakerbox.log 2>&1 &
 ```
+
+- Query volume of headphone jack from amixer:
+
+```
+amixer | sed -n '/Headphone/,/Mono:/p' | grep -oP '\[.*?\]'
+```
+
+- Kill switchbox_monitor script:  
+  (kill with pattern)
+
+```
+pkill -f switchbox_monitor.py
+```
