@@ -7,14 +7,18 @@
 // onUp, the message 'dong' is sent down the serial
 
 #include <ArduinoJson.h>
+#include <ezButton.h>
 boolean triggered = false;
+int SWITCH_PIN = 2;
+int LED_PIN = 3;
+
+ezButton button(SWITCH_PIN);
 
 void setup() {
-  pinMode(3, OUTPUT);
-  pinMode(A0, INPUT);
-  pinMode(5, OUTPUT);
-  pinMode(2, INPUT_PULLUP);
+  pinMode(LED_PIN, OUTPUT);
+//  pinMode(SWITCH_PIN, INPUT_PULLUP);
   Serial.begin(9600);
+  button.setDebounceTime(60);
 }
 
 StaticJsonDocument<200> buildPayload(String message) {
@@ -26,28 +30,26 @@ StaticJsonDocument<200> buildPayload(String message) {
 }
 
 void toggleLED() {
-  digitalWrite(3, !digitalRead(3));  
+  digitalWrite(LED_PIN, !digitalRead(LED_PIN));  
 }
 
 void loop() {
 
-  // Monitor inputs
+  // Praise be to:
+  // https://github.com/ArduinoGetStarted/button/blob/master/examples/03.SingleButtonDebounce/03.SingleButtonDebounce.ino
 
-  int doorbell_in = digitalRead(2);
-  
-  if (doorbell_in == LOW && triggered == false) {
+  button.loop();
+
+  if(button.isPressed()) {
     toggleLED();
     serializeJson(buildPayload("ding"), Serial);
-    Serial.println();  
-    triggered = true;
+    Serial.println(); 
   }
 
-  if (doorbell_in == HIGH && triggered == true) {
+  if(button.isReleased()) {
     toggleLED();
     serializeJson(buildPayload("dong"), Serial);
-    Serial.println();  
-    triggered = false;
+    Serial.println();
   }
-
   
 }
