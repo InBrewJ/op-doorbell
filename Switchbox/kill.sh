@@ -1,1 +1,1 @@
-pkill -f switch_node_monitor.py
+pkill -f tty && pkill -f switch_node_monitor.py

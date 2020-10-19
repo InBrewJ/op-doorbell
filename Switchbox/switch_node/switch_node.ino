@@ -5,6 +5,12 @@
 // Designed for the doorbell @ number 13
 // When the button is pressed, the message 'ding' is sent down the serial
 // onUp, the message 'dong' is sent down the serial
+// The actual doorbell switch @ number 13 is janky af and
+// there seems to be a lot of interference down the 20m+ long cable
+// Sometimes, the switch hangs LOW (as defined by the circuit)
+// Therefore, a 'ding' message is sent
+// 'ding's can be false positives, 'dong's are not, so we check for 'dongs'
+// in other parts of the system
 
 #include <ArduinoJson.h>
 
@@ -13,13 +19,13 @@ const int LED_PIN = 3;
 
 // Variables will change:
 int ledState = LOW;          // the current state of the output pin
-int buttonState;             // the current reading from the input pin
-int lastButtonState = HIGH;   // the previous reading from the input pin
+int buttonState = HIGH;      // the current reading from the input pin
+int lastButtonState = HIGH;  // the previous reading from the input pin
 
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
 unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
-unsigned long debounceDelay = 300;    // the debounce time; increase if the output flickers
+unsigned long debounceDelay = 170;    // the debounce time; increase if the output flickers
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);

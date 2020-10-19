@@ -26,7 +26,7 @@ def get_headphone_volume_as_array():
 
 def get_headphone_volume_stats():
     stats_as_array = get_headphone_volume_as_array()[:3]
-    mapping = ['volume_percent', 'volume_db', 'isNotMuted']
+    mapping = ['volume_percent', 'volume_db', 'speakersAre']
     stats_dict = {}
     for idx, stat in enumerate(stats_as_array):
         without_brackets = stat.strip('[').strip(']')
@@ -44,9 +44,15 @@ def on_connect(client, userdata, flags, rc):
     else:
         print("Bad connection Returned code=", rc)
 
+def handle_message(message: dict):
+    if(message == 'dong'):
+        _localtime = time.asctime( time.localtime(time.time()) )
+        print(_localtime, ' *********** audio trigger via dong ***********')
+        audio_player.loadfile(SAMPLE_PATH)
+
 def on_message(client, userdata, message):
     payload = str(message.payload.decode("utf-8"))
-    audio_player.loadfile(SAMPLE_PATH)
+    handle_message(payload)
     print("message received " ,payload)
     print("message topic=",message.topic)
     print("message qos=",message.qos)
@@ -78,7 +84,7 @@ def send_heartbeat():
     print(get_headphone_volume_stats())
 
 while(True):
-    sleep(1)
+    sleep(5)
     send_heartbeat()
 
 client.loop_stop()  # Stop loop
