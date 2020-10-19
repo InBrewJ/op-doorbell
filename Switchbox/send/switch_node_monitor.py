@@ -1,4 +1,5 @@
 import serial
+import time
 from time import sleep
 from serial import Serial
 import json
@@ -34,10 +35,17 @@ def on_connect(client, userdata, flags, rc):
 def ding():
     client.publish(SPEAKERBOX_PUB_TOPIC, 'ding')
 
+def dong():
+    client.publish(SPEAKERBOX_PUB_TOPIC, 'dong')
+
 def parse_message(message):
     message_dict = json.loads(message)
+    ts = time.asctime( time.localtime(time.time()) )
+    print(str(ts), ': message from serial: ', message)
     if (message_dict['message'] == 'ding'):
         ding()
+    if (message_dict['message'] == 'dong'):
+        dong()
 
 mqtt.Client.connected_flag = False  # create flag in class
 client = mqtt.Client("Switchbox", clean_session=False)  # create new instance
