@@ -8,16 +8,14 @@
 // onUp, the message 'dong' is sent down the serial
 
 #include <ArduinoJson.h>
-#include <ezButton.h>
 int SWITCH_PIN = 2;
 int LED_PIN = 3;
 
-ezButton button(SWITCH_PIN);
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
+  pinMode(SWITCH_PIN, INPUT);
   Serial.begin(9600);
-  button.setDebounceTime(60);
 }
 
 StaticJsonDocument<200> buildPayload(int state) {
@@ -37,10 +35,14 @@ void loop() {
   // Praise be to:
   // https://github.com/ArduinoGetStarted/button/blob/master/examples/03.SingleButtonDebounce/03.SingleButtonDebounce.ino
 
-  button.loop();
   int state = digitalRead(SWITCH_PIN);
 
-  Serial.println(state);
-  delay(250);
+  if (state == LOW) {
+    Serial.println("isLOW");
+  }
+
+  if (state == HIGH) {
+    Serial.println("isHIGH");
+  }
   
 }
