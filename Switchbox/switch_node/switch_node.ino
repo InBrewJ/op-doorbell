@@ -17,7 +17,9 @@ ezButton button(SWITCH_PIN);
 void setup() {
   pinMode(LED_PIN, OUTPUT);
   Serial.begin(9600);
-  button.setDebounceTime(60);
+  // HUGE debounce because the doorbell cable is v long (maybe 20m)
+  // And I don't have (optoisolator | ferrite bands | extra caps lying around)
+  button.setDebounceTime(250);
 }
 
 StaticJsonDocument<200> buildPayload(String message) {

@@ -1,0 +1,1 @@
+pkill -f switch_node_monitor.py

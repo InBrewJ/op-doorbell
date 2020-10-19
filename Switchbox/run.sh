@@ -1,0 +1,1 @@
+/usr/bin/python3 -u /root/workshop/send/switch_node_monitor.py >> /root/workshop/switchbox.log 2>&1 &

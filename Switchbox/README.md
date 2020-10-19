@@ -29,5 +29,5 @@ Monitor box_check with:
 # Run cron as root
 sudo crontab -e
 # Add line:
-@reboot sleep 15 && /usr/bin/python3 -u /root/workshop/send/switch_node_monitor.py >> /root/workshop/switchbox.log 2>&1 &
+@reboot sleep 10 && /usr/bin/python3 -u /root/workshop/send/switch_node_monitor.py >> /root/workshop/switchbox.log 2>&1 &
 ```
