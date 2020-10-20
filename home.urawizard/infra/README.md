@@ -15,7 +15,14 @@ see: https://codeburst.io/get-started-with-rabbitmq-on-docker-4428d7f6e46b
 Run with:
 
 ```
-docker run --rm -it --hostname my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+docker run --rm -it -d --hostname my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+```
+
+add rules to firewall (with the right project selected):
+
+```
+gcloud compute firewall-rules create allow-5672-rabbit --allow tcp:5672
+gcloud compute firewall-rules create allow-15672-rabbit --allow tcp:15672
 ```
 
 ## PostgreSQL
