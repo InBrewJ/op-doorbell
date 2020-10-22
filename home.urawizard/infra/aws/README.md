@@ -12,7 +12,7 @@ sudo ./aws/install
 
 ## Deploy the static site to S3 + Cloudfront
 
-See /home.urawizard/upate.sh or hazel config
+See /home.urawizard/update.sh or (the entirely pending) hazel config
 
 ```
 aws s3 sync <FILES> s3://home.urawizard.com --delete
