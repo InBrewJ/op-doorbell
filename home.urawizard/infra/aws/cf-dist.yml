@@ -14,7 +14,7 @@ Resources:
     Type: "AWS::CloudFront::CloudFrontOriginAccessIdentity"
     Properties:
       CloudFrontOriginAccessIdentityConfig:
-        Comment: "Yes mate"
+        Comment: "MyBucket"
   CloudFrontDistribution:
     Type: "AWS::CloudFront::Distribution"
     Properties:
@@ -46,10 +46,10 @@ Resources:
         Enabled: true
         HttpVersion: http2
         Origins:
-          - DomainName: home.urawizard.com.s3-website-eu-west-1.amazonaws.com
+          - DomainName: home.urawizard.com.s3.amazonaws.com
             Id: s3origin
-            CustomOriginConfig:
-              OriginProtocolPolicy: http-only
+            S3OriginConfig:
+              OriginAccessIdentity: origin-access-identity/cloudfront/E2F654XZGIQGJI
         PriceClass: "PriceClass_All"
 Outputs:
   DistributionId:

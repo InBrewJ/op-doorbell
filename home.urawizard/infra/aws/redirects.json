@@ -12,7 +12,7 @@
       },
       "Redirect": {
         "HttpRedirectCode": "307",
-        "ReplaceKeyPrefixWith": "maintenance.html"
+        "ReplaceKeyWith": "maintenance.html"
       }
     }
   ]

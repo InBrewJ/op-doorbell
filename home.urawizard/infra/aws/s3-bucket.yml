@@ -11,7 +11,6 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Ref BucketName
-      AccessControl: PublicRead # visitors need to be able to access the sie
       WebsiteConfiguration: # this makes the S3 Bucket a static website/app
         IndexDocument: index.html # default object served when visiting S3 domain
         ErrorDocument: index.html # just send to app, let React handle errors and routing
@@ -22,14 +21,18 @@ Resources:
     Properties:
       Bucket: !Ref MyBucket # attach to bucket being created
       PolicyDocument:
-        Id: MyPolicy
-        Version: 2012-10-17
-        Statement: # lets the public access/view the contents of your Bucket, i.e. web app
-          - Sid: PublicReadForGetBucketObjects
+        Statement:
+          - Action: "s3:GetObject"
             Effect: Allow
-            Principal: "*" # wildcard, allow all requests
-            Action: "s3:GetObject"
-            Resource: !Join ["", ["arn:aws:s3:::", !Ref MyBucket, /*]]
+            Resource: !Sub "arn:aws:s3:::${MyBucket}/*"
+            Principal:
+              CanonicalUser: !GetAtt CloudFrontOriginAccessIdentity.S3CanonicalUserId
+
+  CloudFrontOriginAccessIdentity:
+    Type: "AWS::CloudFront::CloudFrontOriginAccessIdentity"
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Ref MyBucket
 
 Outputs:
   WebsiteURL:
@@ -37,3 +40,6 @@ Outputs:
     Description: URL for website hosted on S3
   Domainname:
     Value: !GetAtt "MyBucket.DomainName"
+  OriginAccessIdentityId:
+    Description: "S3 access identity"
+    Value: !Ref CloudFrontOriginAccessIdentity
