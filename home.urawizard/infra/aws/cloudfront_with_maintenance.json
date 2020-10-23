@@ -1,0 +1,109 @@
+{
+  "CallerReference": "81ed1e93-bcdc-4e72-ab04-90d9d3c6bda8",
+  "Aliases": {
+    "Quantity": 0
+  },
+  "DefaultRootObject": "index.html",
+  "Origins": {
+    "Quantity": 1,
+    "Items": [
+      {
+        "Id": "s3origin",
+        "DomainName": "home.urawizard.com.s3.amazonaws.com",
+        "OriginPath": "",
+        "CustomHeaders": {
+          "Quantity": 0
+        },
+        "S3OriginConfig": {
+          "OriginAccessIdentity": "origin-access-identity/cloudfront/E2F654XZGIQGJI"
+        },
+        "ConnectionAttempts": 3,
+        "ConnectionTimeout": 10
+      }
+    ]
+  },
+  "OriginGroups": {
+    "Quantity": 0
+  },
+  "DefaultCacheBehavior": {
+    "TargetOriginId": "s3origin",
+    "TrustedSigners": {
+      "Enabled": false,
+      "Quantity": 0
+    },
+    "ViewerProtocolPolicy": "redirect-to-https",
+    "AllowedMethods": {
+      "Quantity": 3,
+      "Items": ["HEAD", "GET", "OPTIONS"],
+      "CachedMethods": {
+        "Quantity": 3,
+        "Items": ["HEAD", "GET", "OPTIONS"]
+      }
+    },
+    "SmoothStreaming": false,
+    "Compress": true,
+    "LambdaFunctionAssociations": {
+      "Quantity": 1,
+      "Items": [
+        {
+          "LambdaFunctionARN": "arn:aws:lambda:us-east-1:474192408199:function:maintenance-page:4",
+          "EventType": "viewer-request",
+          "IncludeBody": false
+        }
+      ]
+    },
+    "FieldLevelEncryptionId": "",
+    "ForwardedValues": {
+      "QueryString": false,
+      "Cookies": {
+        "Forward": "none"
+      },
+      "Headers": {
+        "Quantity": 0
+      },
+      "QueryStringCacheKeys": {
+        "Quantity": 0
+      }
+    },
+    "MinTTL": 60,
+    "DefaultTTL": 3600,
+    "MaxTTL": 86400
+  },
+  "CacheBehaviors": {
+    "Quantity": 0
+  },
+  "CustomErrorResponses": {
+    "Quantity": 1,
+    "Items": [
+      {
+        "ErrorCode": 403,
+        "ResponsePagePath": "/404.html",
+        "ResponseCode": "404",
+        "ErrorCachingMinTTL": 300
+      }
+    ]
+  },
+  "Comment": "",
+  "Logging": {
+    "Enabled": false,
+    "IncludeCookies": false,
+    "Bucket": "",
+    "Prefix": ""
+  },
+  "PriceClass": "PriceClass_All",
+  "Enabled": true,
+  "ViewerCertificate": {
+    "CloudFrontDefaultCertificate": true,
+    "MinimumProtocolVersion": "TLSv1",
+    "CertificateSource": "cloudfront"
+  },
+  "Restrictions": {
+    "GeoRestriction": {
+      "RestrictionType": "none",
+      "Quantity": 0
+    }
+  },
+  "WebACLId": "",
+  "HttpVersion": "http2",
+  "IsIPV6Enabled": true
+}

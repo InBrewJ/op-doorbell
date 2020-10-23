@@ -1,0 +1,1 @@
+aws cloudfront get-distribution --id EX58XM8KBBXH9 > cloudfront.json
