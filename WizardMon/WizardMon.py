@@ -18,13 +18,14 @@ class WizardMon:
         utc_timestamp:str = str(utc_time.timestamp()) 
         return (utc_timestamp, str(utc_time))
     
-    def heartbeat(self):
+    def heartbeat(self, meta=''):
         print('Sending hearbeat to broker')
         msg = HeartbeatSchema.copy()
         (utc, utc_pretty) = self._get_timestamp_utc()
         msg['utc'] = utc
         msg['pretty_utc'] = utc_pretty
         msg['message']['deviceId'] = self.deviceId
+        msg['message']['meta'] = meta
         to_send: str = json.dumps(msg)
         self.broker.produce(to_send)
 

@@ -4,7 +4,8 @@ HeartbeatSchema: dict = {
     'utc_pretty': None,
     'message': {
         'deviceId': None,
-        'type': 'heartbeat'
+        'type': 'heartbeat',
+        'meta': None
     }
 }
 

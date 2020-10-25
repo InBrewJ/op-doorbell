@@ -1,7 +1,7 @@
 from WizardMon import WizardMon
 
 wm = WizardMon('Speakerbox')
-wm.heartbeat()
+wm.heartbeat(meta='extra')
 event = {
     'type': 'dong',
     'meta': ''
