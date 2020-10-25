@@ -1,0 +1,1 @@
+## For errors (i.e. exceptions that are handled) and startup messages and junk
