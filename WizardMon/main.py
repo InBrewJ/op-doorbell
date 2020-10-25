@@ -6,4 +6,4 @@ event = {
     'type': 'dong',
     'meta': ''
 }
-wm.hook(event)
+wm.hook('dong', 'something')
