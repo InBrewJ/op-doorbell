@@ -8,8 +8,8 @@ message: dict = {
     'timestamp': ts,
     'message': 'heartbeater',
     'status': {
-        'serial': True,
-        'broker': False
+        'ding': True,
+        'dong': False
     }
 }
 RABBIT_HOST= 'eggs.urawizard.com'

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>SSE</title>
+    <style>
+		body {
+			font-family: sans-serif;
+		}
+	</style>
+</head>
+<body>
+
+<img src="https://casa.urawizard.com/img/tronics.jpeg" width="240"/>
+
+<h3>op-doorbell messages</h3>
+
+<span id="foo"></span>
+
+<br><br>
+<button onclick="start()">Track</button>
+<button onclick="stop()">Stop</button>
+
+<script>
+    var eventSource = undefined;
+
+	function start() {
+	    console.log('Open sesame...');
+	    eventSource = new EventSource("events");
+		eventSource.onmessage = function(event) {
+			document.getElementById('foo').innerHTML = event.data;
+		};
+    }
+
+    function stop() {
+        console.log('Closing...');
+        eventSource.close();
+    }
+	</script>
+</body>
+</html>
