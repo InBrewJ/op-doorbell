@@ -3,7 +3,8 @@ import json
 import time
 
 RABBIT_HOST = "eggs.urawizard.com"
-RABBIT_QUEUE = "t_wizard_mon"
+RABBIT_QUEUE = "q_WizardMon"
+RABBIT_EXCHANGE = "e_WizardMon"
 
 
 class Broker:
@@ -12,11 +13,11 @@ class Broker:
             pika.ConnectionParameters(RABBIT_HOST)
         )
         self.channel = self.connection.channel()
-        self.channel.queue_declare(queue=RABBIT_QUEUE)
+        self.channel.exchange_declare(exchange=RABBIT_EXCHANGE, exchange_type="fanout")
 
     def produce(self, message: str):
         self.channel.basic_publish(
-            exchange="", routing_key="t_wizard_mon", body=json.dumps(message)
+            exchange=RABBIT_EXCHANGE, routing_key="", body=json.dumps(message)
         )
 
     def __del__(self):

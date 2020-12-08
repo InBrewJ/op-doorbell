@@ -11,7 +11,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class Consumer {
-    private final static String QUEUE_NAME = "t_wizard_mon";
+    private final static String QUEUE_NAME = "";
+    private final static String EXCHANGE_NAME = "e_WizardMon";
     private final static String HOST = "eggs.urawizard.com";
     private Channel channel;
     private Connection connection;
@@ -22,8 +23,11 @@ public class Consumer {
         factory.setHost(HOST);
         this.connection = factory.newConnection();
         this.channel = connection.createChannel();
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        channel.basicQos(30);
+
+        channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
+        String queueName = channel.queueDeclare().getQueue();
+        channel.queueBind(queueName, EXCHANGE_NAME, "");
+
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             messages.add(message);

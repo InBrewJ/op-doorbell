@@ -1,0 +1,4 @@
+{
+  "ssh": "ssh pi@speakerbox.local",
+  "update": "./update.sh"
+}
