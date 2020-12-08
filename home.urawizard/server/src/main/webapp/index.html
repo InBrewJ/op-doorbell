@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>SSE</title>
     <style>
 		body {
@@ -23,7 +24,18 @@
 <script>
     var eventSource = undefined;
 
+    function setWaitingText() {
+        document.getElementById('foo').innerHTML = 'Waiting... &hearts;';
+    }
+
+    function setStoppedText() {
+        document.getElementById('foo').innerHTML = 'Stopped <strike>&hearts;</strike>';
+    }
+
+    setStoppedText();
+
 	function start() {
+	    setWaitingText();
 	    console.log('Open sesame...');
 	    eventSource = new EventSource("events");
 		eventSource.onmessage = function(event) {
@@ -34,6 +46,7 @@
     function stop() {
         console.log('Closing...');
         eventSource.close();
+        setStoppedText();
     }
 	</script>
 </body>

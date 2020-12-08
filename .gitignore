@@ -19,3 +19,6 @@ scratch
 # Maven
 log/
 target/
+
+# Secrets
+.secrets

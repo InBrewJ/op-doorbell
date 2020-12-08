@@ -5,15 +5,14 @@ if [ $# -eq 0 ]; then
 fi
 
 
-echo "Deploying home.urawizard to $1..."
+echo "Deploying contrived.name to $1..."
 
 if [ $1 == "aws" ]; then
     echo Deploying to aws
-    aws s3 sync site/ s3://home.urawizard.com --delete
-    cd infra/aws/site
+    aws s3 sync site/ s3://contrived.name --delete
+    cd infra/aws/
     ./invalidate_cache.sh
     echo Deployed
-    exit 0;
 else
     echo Deployment target not supported, sorry
     exit 1;

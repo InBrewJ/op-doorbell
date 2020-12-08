@@ -15,6 +15,7 @@ public class Server extends HttpServlet {
 
         response.setContentType("text/event-stream");
         response.setCharacterEncoding("UTF-8");
+        setAccessControlHeaders(response);
 
         PrintWriter writer = response.getWriter();
         try {
@@ -32,5 +33,18 @@ public class Server extends HttpServlet {
         } catch (TimeoutException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    //for Preflight
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        setAccessControlHeaders(resp);
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    private void setAccessControlHeaders(HttpServletResponse resp) {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
     }
 }

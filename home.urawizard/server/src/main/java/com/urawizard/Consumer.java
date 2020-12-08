@@ -23,6 +23,7 @@ public class Consumer {
         this.connection = factory.newConnection();
         this.channel = connection.createChannel();
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        channel.basicQos(30);
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             messages.add(message);
@@ -33,7 +34,7 @@ public class Consumer {
             }
 
         };
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
+        channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {
         });
         System.out.println("Consumer setup complete");
     }
