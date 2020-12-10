@@ -19,6 +19,24 @@
     .small-text {
       font-size: 80%;
     }
+    #op-doorbell-status {
+      display: inline-block;
+    }
+
+    .applyBounce {
+      animation: heartbeatBounce 0.5s;
+      animation-iteration-count: 1;
+      font-weight: bold;
+    }
+
+    @keyframes heartbeatBounce {
+      0% {
+        transform: translateY(5px);
+      }
+      100% {
+        transform: translateY(-5px);
+      }
+    }
   </style>
   <body>
     <!-- !PAGE CONTENT! -->
@@ -101,8 +119,12 @@
           const statusUpdate = event.data;
           const toJson = JSON.parse(JSON.parse(statusUpdate));
           console.log(toJson);
-          document.getElementById("op-doorbell-status").innerHTML =
-            toJson.utc_pretty;
+          const element = document.getElementById("op-doorbell-status");
+          element.innerHTML = toJson.utc_pretty.split(".")[0];
+          element.classList.add("applyBounce");
+          setTimeout(() => {
+            element.classList.remove("applyBounce");
+          }, 2000);
         };
       };
     </script>

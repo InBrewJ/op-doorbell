@@ -99,7 +99,7 @@ while not client.connected_flag:  # wait in loop
     print("In wait loop")
     sleep(1)
 
-logging.info("Subscribing to topic", SWITCHBOX_SUB_TOPIC)
+logging.info("Subscribing to topic: " + SWITCHBOX_SUB_TOPIC)
 client.subscribe(SWITCHBOX_SUB_TOPIC)
 
 
