@@ -10,17 +10,21 @@ RABBIT_EXCHANGE = "e_WizardMon"
 class Broker:
     def __init__(self):
         print("Broker module initialised...")
-
-    def produce(self, message: str):
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(RABBIT_HOST)
         )
         self.channel = self.connection.channel()
         self.channel.exchange_declare(exchange=RABBIT_EXCHANGE, exchange_type="fanout")
-        self.channel.basic_publish(
-            exchange=RABBIT_EXCHANGE, routing_key="", body=json.dumps(message)
-        )
-        self.connection.close()
+
+    def produce(self, message: str):
+        if self.connection.is_open:
+            self.channel.basic_publish(
+                exchange=RABBIT_EXCHANGE, routing_key="", body=json.dumps(message)
+            )
+        else:
+            print("***** connection with Broker lost, reconnecting and retrying *****")
+            self.__init__()
+            self.produce(message)
 
     def __del__(self):
         self.connection.close()
